@@ -95,6 +95,7 @@ class CodeReviewer:
 
         Provide concise, actionable feedback.
         """
+        print(prompt)
 
         try:
             response = model.create_completion(
