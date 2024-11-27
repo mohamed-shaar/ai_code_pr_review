@@ -113,6 +113,7 @@ class CodeReviewer:
                 temperature=0.3,
                 stop=["```"]
             )
+            print(response)
             return response['choices'][0]['text'].strip()
         except Exception as e:
             print(f"Error analyzing code: {e}")
