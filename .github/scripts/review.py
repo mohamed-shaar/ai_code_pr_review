@@ -77,11 +77,20 @@ class CodeReviewer:
         """
         model = self._load_model()
 
+#Provide a detailed code review for the following {Path(file_path).suffix} file:
+#File: {file_path}
         prompt = f"""
-        Provide a detailed code review for the following {Path(file_path).suffix} file:
+        
 
-        File: {file_path}
+        Provide a detailed code review for this Flutter code. 
 
+        Focus on:
+            1. Code quality and best practices specific to Flutter and Dart
+            2. Potential performance bottlenecks or widget rendering issues
+            3. Security considerations in mobile app development
+            4. Recommended architectural or implementation improvements
+
+        Please include specific, actionable feedback with code suggestions where applicable.
         Code:
         ```
         {code}
