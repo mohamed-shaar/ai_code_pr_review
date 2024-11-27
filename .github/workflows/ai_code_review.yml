@@ -43,6 +43,6 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           mkdir -p .github/scripts
-          wget https://raw.githubusercontent.com/ai_code_pr_review/test/random-changes/review.py -O .github/scripts/review.py
+          wget https://raw.githubusercontent.com/mohamed-shaar/ai_code_pr_review/test/random-changes/.github/scripts/review.py -O .github/scripts/review.py
           chmod +x .github/scripts/review.py
           python .github/scripts/review.py
