@@ -1,0 +1,43 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '**.dart'
+      - '**.yaml'
+      - 'pubspec.yaml'
+      - 'lib/**'
+      - 'test/**'
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    # Add concurrency to cancel outdated runs
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+
+    steps:
+      # Previous steps remain the same...
+
+      - name: Run code review with timeout
+        timeout-minutes: 10  # Add timeout
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_NAME: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+          MAX_FILES_TO_REVIEW: 10  # Limit number of files
+          MAX_FILE_SIZE: 1000  # Limit lines per file
+        run: python .github/scripts/review.py
+
+      - name: Report timing metrics
+        if: always()
+        run: |
+          echo "Workflow completion time: ${{ steps.review.time }}"
+          echo "Files reviewed: ${{ steps.review.outputs.files_reviewed }}"
